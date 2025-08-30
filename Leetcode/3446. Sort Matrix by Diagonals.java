@@ -1,0 +1,37 @@
+package Leetcode;
+import java.util.*;
+class Solution {
+    public int[][] sortMatrix(int[][] grid) {
+        // (0,0) (1,1) to (n,n) . (1,0),(2,1) . (2,0) 
+        // (0,1) (1,2) . (0,2) 
+
+        //0 to n-1 . y 
+        // left bottom 
+        int n=grid.length;
+        int[][] result=new int[n][n];
+        for(int i=0;i<n;i++){
+            Integer[] temp=new Integer[n-i];
+            for(int j=0;j<n-i;j++){
+                temp[j]=grid[i+j][j];
+            }
+            Arrays.sort(temp,Collections.reverseOrder());
+            for(int j=0;j<n-i;j++){
+                result[i+j][j]=temp[j];
+            }
+        }
+
+        for(int i=0;i<n-1;i++){
+            int[] temp=new int[n-i-1];
+            for(int j=0;j<n-i-1;j++){
+                temp[j]=grid[j][j+i+1];
+            }
+            Arrays.sort(temp);
+            for(int j=0;j<n-i-1;j++){
+                result[j][j+i+1]=temp[j];
+            }
+        }
+
+        return result;
+
+    }
+}
