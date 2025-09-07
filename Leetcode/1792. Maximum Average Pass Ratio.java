@@ -1,6 +1,6 @@
 package Leetcode;
 import java.util.*;
-public class Solution {
+class Solution {
     public double maxAverageRatio(int[][] classes, int extraStudents) {
         int n=classes.length;
         PriorityQueue<Pair> maxHeap=new PriorityQueue<>((a,b)->Double.compare(b.gain,a.gain));
@@ -30,6 +30,4 @@ class Pair{
         this.total=total;
         this.gain=(double)(p+1)/(total+1)-(double)(p)/total;
     }
-} {
-    
-}
+} 
