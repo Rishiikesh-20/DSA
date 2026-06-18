@@ -2,45 +2,40 @@ class Solution {
     public List<List<String>> solveNQueens(int n) {
         List<List<String>> result=new ArrayList<>();
         int[] cur=new int[n];
-        HashSet<Integer> set=new HashSet<>();
-        backTrack(0,n,cur,result,set);
+        // HashSet<Integer> set=new HashSet<>();
+        backTrack(0,n,cur,result);
         return result;
     }
 
-    public void backTrack(int row,int n,int[] cur,List<List<String>> result,HashSet<Integer> set){
+    public void backTrack(int row,int n,int[] cur,List<List<String>> result){
         if(row==n){
-            List<String> list=new ArrayList<>();
+            List<String> current=new ArrayList<>();
             for(int i=0;i<n;i++){
-                StringBuilder str=new StringBuilder();
+                StringBuilder s=new StringBuilder();   
                 for(int j=0;j<n;j++){
                     if(cur[i]==j){
-                        str.append('Q');
+                        s.append('Q');
                     }else{
-                        str.append('.');
+                        s.append('.');
                     }
-                }
-                list.add(str.toString());
+                } 
+                current.add(s.toString());
             }
-            result.add(list);
+            result.add(current);
             return;
         }
-        for(int i=0;i<n;i++){
-            boolean valid = true;
 
-            for(int r=0; r<row; r++){
-                if(Math.abs(r-row) == Math.abs(cur[r]-i)){
-                    valid = false;
+        for(int i=0;i<n;i++){
+            int flag=0;
+            for(int j=0;j<row;j++){
+                if((row-j)==Math.abs(i-cur[j]) || i==cur[j]){
+                    flag=1;
                     break;
                 }
             }
-            if(!valid) continue;
-            if(set.contains(i)){
-                continue;
-            }
+            if(flag==1) continue;
             cur[row]=i;
-            set.add(i);
-            backTrack(row+1,n,cur,result,set);
-            set.remove(i);
+            backTrack(row+1,n,cur,result);
         }
     }
 }
