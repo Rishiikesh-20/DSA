@@ -23,7 +23,7 @@ class Solution {
                 return arr[mid];
             }
             n=high-low+1;
-            System.out.println("low: "+low+" high: "+high);
+            //System.out.println("low: "+low+" high: "+high);
         }
         return arr[low];
     }
