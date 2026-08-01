@@ -1,16 +1,23 @@
 class Solution {
-    public boolean predictTheWinner(int[] arr) {
-        int n=arr.length;
-        if(recur(0,n-1,arr)>=0){
-            return true;
-        }
-        return false;
-    }
+    public boolean predictTheWinner(int[] nums) {
+        /*
+            dp[i][j]=Max diff can get 
 
-    public int recur(int i,int j,int[] arr){
-        if(i==j){
-            return arr[i];
+            dp[i][j]=max(arr[i]-dp[i+1][j],arr[j]-dp[i][j-1])
+        
+        */
+        int n=nums.length;
+        int[][] dp=new int[n][n];
+        for(int i=n-1;i>=0;i--){
+            for(int j=0;j<n;j++){
+                if(i>j) continue;
+                if(i==j){
+                    dp[i][j]=nums[i];
+                }else{
+                    dp[i][j]=Math.max(nums[i]-dp[i+1][j],nums[j]-dp[i][j-1]);
+                }
+            }
         }
-        return Math.max(arr[i]-recur(i+1,j,arr),arr[j]-recur(i,j-1,arr));
+        return dp[0][n-1]>=0;
     }
 }
