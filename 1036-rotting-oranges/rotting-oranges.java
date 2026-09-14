@@ -1,48 +1,46 @@
 class Solution {
     public int orangesRotting(int[][] grid) {
+        Queue<int[]> queue=new LinkedList<>();
         int m=grid.length;
         int n=grid[0].length;
-        Queue<int[]> queue=new LinkedList<>();
-        boolean fresh=false;
-        int freshCount=0;
+        int one=0;
         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
                 if(grid[i][j]==2){
                     queue.add(new int[]{i,j});
-                }
-                else if(grid[i][j]==1){
-                    fresh=true;
-                    freshCount++;
+                }else if(grid[i][j]==1){
+                    one++;
                 }
             }
         }
-        if(fresh==false){
+        if(one==0){
             return 0;
         }
-        int count=0;
-        while(!queue.isEmpty() && freshCount!=0){
-            int l=queue.size();
-            for(int i=0;i<l;i++){
-                int[] arr=queue.poll();
-                //top,right,down,left
-                int[] xarr=new int[]{arr[0]-1,arr[0],arr[0]+1,arr[0]};
-                int[] yarr=new int[]{arr[1],arr[1]+1,arr[1],arr[1]-1};
-                
+        int result=0;
+        while(!queue.isEmpty()){
+            int size=queue.size();
+            for(int i=0;i<size;i++){
+                int[] node=queue.poll();
+
+                int[] xdir={-1,1,0,0};
+                int[] ydir={0,0,-1,1};
+
                 for(int j=0;j<4;j++){
-                    if(xarr[j]>=0 && xarr[j]<m && yarr[j]>=0 && yarr[j]<n){
-                        if(grid[xarr[j]][yarr[j]]==1){
-                            grid[xarr[j]][yarr[j]]=2;
-                            queue.add(new int[]{xarr[j],yarr[j]});
-                            freshCount-=1;
-                        }
+                    int x=node[0]+xdir[j];
+                    int y=node[1]+ydir[j];
+
+                    if(x>=0 && x<m && y>=0 && y<n && grid[x][y]==1){
+                        one--;
+                        grid[x][y]=2;
+                        queue.add(new int[]{x,y});
                     }
                 }
             }
-            count++;
+            result++;
         }
-        if(freshCount==0){
-            return count;
+        if(one!=0){
+            return -1;
         }
-        return -1;
+        return result-1;
     }
 }
