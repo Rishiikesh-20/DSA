@@ -1,27 +1,21 @@
 class Solution {
     public int trap(int[] arr) {
         int n=arr.length;
+        int left=0,right=n-1,leftMax=0,rightMax=0,total=0;
 
-        int left=0;
-        int right=n-1;
-
-        int leftMax=arr[0];
-        int rightMax=arr[n-1];
-
-        int total=0;
-        while(left<=right){
-            if(arr[left]<arr[right]){
-                if(arr[left]>=leftMax){
-                    leftMax=arr[left];
-                }else{
+        while(left<right){
+            if(arr[left]<=arr[right]){
+                if(leftMax>arr[left]){
                     total+=(leftMax-arr[left]);
+                }else{
+                    leftMax=arr[left];
                 }
                 left++;
             }else{
-                if(arr[right]>=rightMax){
-                    rightMax=arr[right];
-                }else{
+                if(rightMax>arr[right]){
                     total+=(rightMax-arr[right]);
+                }else{
+                    rightMax=arr[right];
                 }
                 right--;
             }
