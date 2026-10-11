@@ -4,24 +4,25 @@ class Solution {
 
         char[] arr=s.toCharArray();
 
+        HashMap<Character,Character> map=new HashMap<>();
+
+        map.put(')','(');
+        map.put(']','[');
+        map.put('}','{');
+
         for(char ch:arr){
-            if(ch=='{' || ch=='(' || ch=='['){
-                stack.push(ch);
+            if(map.containsKey(ch)){
+                if(stack.isEmpty()) return false;
+
+                if(stack.peek()!=map.get(ch)) return false;
+                stack.pop();
             }else{
-                if(stack.size()==0) return false;
-                char opp=stack.peek();
-                if(ch=='}' && opp=='{'){
-                    stack.pop();
-                }else if(opp=='(' && ch==')'){
-                    stack.pop();
-                }else if(opp=='[' && ch==']'){
-                    stack.pop();
-                }else{
-                    return false;
-                }
+                stack.add(ch);
             }
-        } 
-        if(stack.size()!=0) return false;
+        }
+        if(!stack.isEmpty()){
+            return false;
+        }
         return true;
     }
 }
