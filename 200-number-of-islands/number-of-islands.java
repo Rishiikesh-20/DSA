@@ -2,33 +2,29 @@ class Solution {
     public int numIslands(char[][] grid) {
         int m=grid.length;
         int n=grid[0].length;
-        int[][] visited=new int[m][n];
-
-        for(int i=0;i<m;i++){
-            Arrays.fill(visited[i],-1);
-        }
+        boolean[][] visited=new boolean[m][n];
         int count=0;
         for(int i=0;i<m;i++){
             for(int j=0;j<n;j++){
-                if(visited[i][j]==-1 && grid[i][j]=='1'){
-                    count++;
-                    dfs(grid,visited,i,j,m,n);
-                }
+                if(visited[i][j]==false && grid[i][j]=='1'){ dfs(grid,visited,i,j);count++;}  
             }
         }
         return count;
     }
-    public void dfs(char[][] grid,int[][] visited,int x,int y,int m,int n){
-        visited[x][y]=1;
-        int[] xdir={-1,1,0,0};
-        int[] ydir={0,0,-1,1};
+    void dfs(char[][] grid,boolean[][] visited,int x,int y){
+        int m=grid.length;
+        int n=grid[0].length;
+        visited[x][y]=true;
+
+        int[] dirX={-1,1,0,0};
+        int[] dirY={0,0,-1,1};
 
         for(int i=0;i<4;i++){
-            int r=x+xdir[i];
-            int c=y+ydir[i];
+            int varX=x+dirX[i];
+            int varY=y+dirY[i];
 
-            if(r>=0 && r<m && c>=0 && c<n && visited[r][c]==-1 && grid[r][c]=='1'){
-                dfs(grid,visited,r,c,m,n);
+            if(varX>=0 && varX<m && varY>=0 && varY<n && grid[varX][varY]=='1' && visited[varX][varY]==false){
+                dfs(grid,visited,varX,varY);
             }
         }
     }
