@@ -2,27 +2,26 @@ class Solution {
     public List<Integer> spiralOrder(int[][] matrix) {
         int m=matrix.length;
         int n=matrix[0].length;
-
+        boolean[][] visited=new boolean[m][n];
         int x=0;
         int y=0;
 
-        int dx=0;
-        int dy=1;
-
-        List<Integer> result=new ArrayList<>();
-
+        int dirX=0;
+        int dirY=1;
+        List<Integer> list=new ArrayList<>();
         for(int i=0;i<m*n;i++){
-            result.add(matrix[x][y]);
-            matrix[x][y]=-101;
+            list.add(matrix[x][y]);
+            visited[x][y]=true;
 
-            if(!(x+dx>=0 && x+dx<m && y+dy>=0 && y+dy<n) || matrix[x+dx][y+dy]==-101){
-                int temp=dy;
-                dy=-dx;
-                dx=temp;
+            if(x+dirX<0 || x+dirX>=m || y+dirY<0 || y+dirY>=n || visited[x+dirX][y+dirY]){
+                int temp=dirX;
+                dirX=dirY;
+                dirY=-temp;
             }
-            x+=dx;
-            y+=dy;
+            x=x+dirX;
+            y=y+dirY;
         }
-        return result;
+
+        return list;
     }
 }
