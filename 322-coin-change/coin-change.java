@@ -1,18 +1,32 @@
 class Solution {
     public int coinChange(int[] coins, int amount) {
         /*
-            dp[n]=mini no of coins to make n
-         */
-        int[] dp=new int[amount+1];
-        Arrays.fill(dp,Integer.MAX_VALUE);
-        dp[0]=0;
-        for(int i=1;i<=amount;i++){
-            for(int j=0;j<coins.length;j++){
-                if(i-coins[j]>=0 && dp[i-coins[j]]!=Integer.MAX_VALUE){
-                    dp[i]=Math.min(dp[i-coins[j]]+1,dp[i]);
-                }
+        
+            dp[i][amount]=minimum no of coins
+
+            dp[i][amount]=min(dp[i][amount-i],dp[i-1][amount])
+        */
+
+        int n=coins.length;
+        int[] prev=new int[amount+1];
+        Arrays.fill(prev,Integer.MAX_VALUE);
+        for(int i=0;i<=amount;i++){
+            if(i%coins[0]==0){
+                prev[i]=i/coins[0];
             }
         }
-        return dp[amount]==Integer.MAX_VALUE?-1:dp[amount];
-    }
+
+        for(int i=1;i<n;i++){
+            int[] cur=new int[amount+1];
+            Arrays.fill(cur,Integer.MAX_VALUE);
+            for(int j=0;j<=amount;j++){
+                int temp=Integer.MAX_VALUE;
+                if(j-coins[i]>=0 && cur[j-coins[i]]!=Integer.MAX_VALUE){
+                    temp=cur[j-coins[i]]+1;
+                }
+                cur[j]=Math.min(temp,prev[j]);
+            }
+            prev=cur;
+        }
+        return prev[amount]!=Integer.MAX_VALUE?prev[amount]:-1;    }
 }
